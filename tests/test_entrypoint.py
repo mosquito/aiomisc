@@ -1,8 +1,11 @@
 import asyncio
+import logging
 import os
 import socket
 from contextlib import ExitStack
 from tempfile import mktemp
+from typing import Any
+from uuid import uuid4
 
 import aiohttp.web
 import fastapi
@@ -62,6 +65,35 @@ def unix_socket_tcp():
     finally:
         if os.path.exists(socket_path):
             os.remove(socket_path)
+
+
+@pytest.fixture()
+def caplog(caplog):
+    try:
+        yield caplog
+    finally:
+        root = logging.getLogger()
+        root.handlers.clear()
+
+
+def test_log_handler_passing(caplog):
+    logger_name = uuid4().hex
+    log = logging.getLogger(logger_name)
+
+    class LogWriter(aiomisc.Service):
+        async def start(self) -> Any:
+            self.start_event.set()
+            await asyncio.sleep(0.2)
+            log.info("Hello from %s", logger_name)
+
+    with caplog.at_level(logging.INFO, logger=logger_name):
+        handler = logging.getLogger().handlers[0]
+        log.addHandler(handler)
+
+        with aiomisc.entrypoint(LogWriter(), log_handler=handler) as loop:
+            loop.run_until_complete(asyncio.sleep(0.5))
+
+    assert caplog.messages[0] == "Hello from {}".format(logger_name)
 
 
 def test_service_class():

@@ -39,14 +39,14 @@ def timer():
 
 
 thread_pool_implementation = (
-    aiomisc.ThreadPoolExecutor,
     concurrent.futures.ThreadPoolExecutor,
+    aiomisc.ThreadPoolExecutor,
 )
 
 
 thread_pool_ids = (
-    "aiomisc pool",
     "default pool",
+    "aiomisc pool",
 )
 
 

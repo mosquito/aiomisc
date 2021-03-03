@@ -54,6 +54,7 @@ def create_logging_handler(
 def basic_config(
     level: t.Union[int, str] = logging.INFO,
     log_format: t.Union[str, LogFormat] = LogFormat.color,
+    log_handler: t.Optional[logging.Handler] = None,
     buffered: bool = True, buffer_size: int = 1024,
     flush_interval: t.Union[int, float] = 0.2,
     loop: asyncio.AbstractEventLoop = None,
@@ -70,7 +71,10 @@ def basic_config(
     if isinstance(log_format, str):
         log_format = LogFormat[log_format]
 
-    handler = create_logging_handler(log_format, **kwargs)
+    if log_handler is not None:
+        handler = log_handler
+    else:
+        handler = create_logging_handler(log_format, **kwargs)
 
     if buffered:
         handler = wrap_logging_handler(
