@@ -1,5 +1,5 @@
-aiohttp<4
 aiohttp-asgi
+aiohttp<4
 async-generator
 async-timeout
 coverage==4.5.1
@@ -11,9 +11,10 @@ mypy~=0.782
 pylava
 pytest
 pytest-cov~=2.5.1
+pytest-subtests
 pytest-freezegun~=0.4.2
-sphinx>=3.5.1
 sphinx-autobuild
 sphinx-intl
+sphinx>=3.5.1
 timeout-decorator
 tox>=2.4
