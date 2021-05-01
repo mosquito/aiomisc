@@ -1,0 +1,36 @@
+@startuml
+title: Execution flow
+
+legend
+@aggregate(leeway_ms=10, max_count=5)
+end legend
+
+robust "Collected calls" as cc
+concise "Batch #1" as b1
+concise "Batch #2" as b2
+
+@cc
+0 is 0
++2 is 1
++4 is 2
++5 is 3
++1 is 0
++1 is 1
++1 is 2
++1 is 3
++1 is 4
++1 is 5
++0.2 is 0
++0.8 is 0
+
+@b1
+2 is COLLECTING #LightCyan;line:black
++10 is EXECUTING #ccffcc
+
+@b2
+12 is COLLECTING #LightCyan;line:black
++5.2 is EXECUTING #ccffcc
+
+highlight 2 to 12 #White:Leeway ms elapsed
+highlight 12 to 17.2 #White:Max count reached
+@enduml

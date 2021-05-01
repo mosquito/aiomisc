@@ -175,6 +175,7 @@ Table Of Contents
    timeout
    async_backoff
    circuit_breaker
+   aggregate
    io
    threads
    process_pool

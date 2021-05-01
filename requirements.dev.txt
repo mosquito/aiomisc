@@ -1,3 +1,4 @@
+aiocontextvars==0.2.2
 aiohttp<4
 aiohttp-asgi
 async-generator
