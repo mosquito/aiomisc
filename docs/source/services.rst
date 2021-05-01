@@ -610,3 +610,54 @@ Full configuration:
 You will find full specification of options in the `Raven documentation`_.
 
 .. _Raven documentation: https://docs.sentry.io/clients/python/advanced/#client-arguments
+
+
+GracefulService
++++++++++++++++
+
+``GracefulService`` allows creation of tasks with `create_graceful_task(coro)`
+that will be either awaited (default) with an optional timeout or cancelled and
+awaited upon service stop.
+
+Optional service parameter ``graceful_wait_timeout`` (default ``None``)
+specifies the allowed wait time in seconds for tasks created with
+``create_graceful_task(coro, cancel=False)``.
+
+Optional service parameter ``cancel_on_timeout`` (default ``True``)
+specifies whether to cancel tasks (without further waiting) that didn't
+complete within ``graceful_wait_timeout``.
+
+Tasks created with ``create_graceful_task(coro, cancel=True)`` are cancelled
+and awaited when the service stops.
+
+.. code-block:: python
+
+    import asyncio
+    from aiomisc.service import GracefulService
+
+    class SwanService(GracefulService):
+
+        graceful_wait_timeout = 10
+        cancel_on_timeout = False
+
+        async def fly(self):
+            await asyncio.sleep(1)
+            print('Flew to a lake')
+
+        async def duckify(self):
+            await asyncio.sleep(1)
+            print('Became ugly duck')
+
+        async def start(self):
+            self.create_graceful_task(self.fly())
+            self.create_graceful_task(self.duckify(), cancel=True)
+
+    service = SwanService()
+    await service.start()
+    await service.stop()
+
+Output example:
+
+.. code-block::
+
+   Flew to a lake

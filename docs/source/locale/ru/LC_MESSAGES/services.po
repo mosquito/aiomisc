@@ -293,3 +293,41 @@ msgstr "Все опции для клиента:"
 #: ../../source/services.rst:610
 msgid "You will find full specification of options in the `Raven documentation`_."
 msgstr "Вы можете найти полное описание параметров в `документации Raven`_."
+
+#: ../../source/services.rst:618
+msgid ""
+"``GracefulService`` allows creation of tasks with `create_graceful_task(coro)` "
+"that will be either awaited (default) with an optional timeout or cancelled and "
+"awaited upon service stop."
+msgstr ""
+"``GracefulService`` позволяет запускать задачи c помощью `create_graceful_task(coro)`, "
+"завершение которых (либо отмену с завершением) сервис выждет при остановке."
+
+#: ../../source/services.rst:622
+msgid ""
+"Optional service parameter ``graceful_wait_timeout`` (default ``None``) "
+"specifies the allowed wait time in seconds for tasks created with "
+"``create_graceful_task(coro, cancel=False)``."
+msgstr ""
+"Необязательный параметр сервиса ``graceful_wait_timeout`` "
+"(по умолчанию ``None``) указывает время выжидания завершения (в секундах) "
+"для задач, запущенных с ``create_graceful_task(coro, cancel=False)``."
+
+#: ../../source/services.rst:626
+msgid ""
+"Optional service parameter ``cancel_on_timeout`` (default ``True``) "
+"specifies whether to cancel tasks (without further waiting) that didn't "
+"complete within ``graceful_wait_timeout``."
+msgstr ""
+"Необязательный параметр сервиса ``cancel_on_timeout`` (по умолчанию ``True``) "
+"указывает отменять ли задачи (без последующего ожидания), которые не "
+"успели завершиться в течение ``graceful_wait_timeout``."
+
+#: ../../source/services.rst:630
+msgid ""
+"Tasks created with ``create_graceful_task(coro, cancel=True)`` are cancelled "
+"and awaited when service stops."
+msgstr ""
+"При остановке сервиса, задачи, запущенные с помощью "
+"``create_graceful_task(coro, cancel=True)`` отменяются, и производится "
+"ожидание их завершения."
